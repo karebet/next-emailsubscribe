@@ -9,35 +9,28 @@ jobs:
     name: run pull
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: at server
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
+        cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull 
 
-      - run: npm install
-      - run: npm run build
+        echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+        echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
+        echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> .env
+        echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> .env
+        echo "SENDGRID_SENDER_NAME=${{ vars.SENDGRID_SENDER_NAME }}" >> .env
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: unnecessary
+        echo "SENDGRID_SENDER_EMAIL=$SENDGRID_SENDER_EMAIL"
+        echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME"
 
-      - name: Adding Known Hosts
-        run: ssh-keyscan -p 22 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 22" ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/students.asyncjs.today/dist/
-
-      - name: Restart Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /PATH_TO_FOLDER
-            git fetch origin master
-            git reset --hard FETCH_HEAD
-            git clean -d -f --exclude secrets
-            npm install --production
-            npm run restart
+        npm i -g next
+        npm next build
+        pm2 restart next-email
+        exit
+    - name: cleanup
+      run: rm -rf ~/.ssh
