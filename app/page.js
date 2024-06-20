@@ -27,7 +27,7 @@ export default function Home() {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Something went wrong! ",
+          text: "Something went wrong!",
         });
         throw new Error('Failed to submit the data. Please try again.')
       }else{
