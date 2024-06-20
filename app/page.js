@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import React,{ useState,useEffect,FormEvent  } from 'react';
 import Swal from 'sweetalert2';
-
+import Link from "next/link";
 export default function Home() {
   const [isSubcribe,setSubcribe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +50,7 @@ export default function Home() {
     <main className={styles.main + 'container py-5'}>
       <div className="row justify-content-center">
         <div className="col-md-4">
+        <Link href={"/testpage"}>Testpage</Link>
           <div className="card" >
             <div className="card-body">
               <form onSubmit={onSubscribe} className="row g-3 needs-validation" novalidate>
