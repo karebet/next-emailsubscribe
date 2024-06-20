@@ -80,8 +80,11 @@ jobs:
           echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> $GITHUB_ENV
           echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> $GITHUB_ENV
           echo "SENDGRID_SENDER_NAME=${{ secrets.SENDGRID_SENDER_NAME }}" >> $GITHUB_ENV
+      - name: Check variables environment
+        run: |
+          echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME"
       - name: Build with Next.js
-        run: npm run build
+        run: npm run build ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
