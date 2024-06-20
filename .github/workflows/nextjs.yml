@@ -28,7 +28,6 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    environment: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,6 +73,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Store variables environment
+        run: |
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
+          echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> $GITHUB_ENV
+          echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> $GITHUB_ENV
+          echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "SENDGRID_SENDER_NAME=${{ secrets.SENDGRID_SENDER_NAME }}" >> $GITHUB_ENV
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
