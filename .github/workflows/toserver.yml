@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   
 jobs:
-  run_pull:
-    name: run pull
+  updateserver:
+    name: Update Server
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -19,8 +19,11 @@ jobs:
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: at server
       run: |
+        echo "Hiii ${{ vars.SENDGRID_SENDER_NAME }}"
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
-        cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull 
+        cd ${{ secrets.WORK_DIR }}
+        git checkout ${{ secrets.MAIN_BRANCH }}
+        git pull 
 
         echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
         echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
