@@ -75,13 +75,13 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Store variables environment
         run: |
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env.local
-          echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env.local
-          echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> .env.local
-          echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> .env.local
-          echo "SENDGRID_SENDER_NAME=${{ secrets.SENDGRID_SENDER_NAME }}" >> .env.local
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
+          echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> $GITHUB_ENV
+          echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> $GITHUB_ENV
+          echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> $GITHUB_ENV
+          echo "SENDGRID_SENDER_NAME=${{ secrets.SENDGRID_SENDER_NAME }}" >> $GITHUB_ENV
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
