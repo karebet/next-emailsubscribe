@@ -20,6 +20,6 @@ jobs:
     - name: at server
       run: |
         echo "Hiii ${{ vars.SENDGRID_SENDER_NAME }}"
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}  '${{ secrets.EXPORTPATHNODEJSV20140}} && cd ${{ secrets.WORK_DIR }} && nvm use 20.14.0 && git checkout ${{ secrets.MAIN_BRANCH }} && git pull  && echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env && echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env && echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> .env && echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> .env && echo "SENDGRID_SENDER_NAME=${{ vars.SENDGRID_SENDER_NAME }}" >> .env && echo "SENDGRID_SENDER_EMAIL=$SENDGRID_SENDER_EMAIL" && echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME" && npm i -g next && npm run build && pm2 restart next-email && exit'
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}  '${{ secrets.EXPORTPATHNODEJSV20140}} && cd ${{ secrets.WORK_DIR }} && nvm use 20.14.0 && git checkout ${{ secrets.MAIN_BRANCH }} && git pull  && echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env && echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env && echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> .env && echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> .env && echo "SENDGRID_SENDER_NAME=${{ vars.SENDGRID_SENDER_NAME }}" >> .env && echo "SENDGRID_SENDER_EMAIL=$SENDGRID_SENDER_EMAIL" && echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME" && npm i -g next && npm run build && pm2 restart nextemail && exit'
     - name: cleanup
       run: rm -rf ~/.ssh
