@@ -3,7 +3,6 @@ import monggoDB from "../../library/mongodb";
 import {sendEmail} from "../../library/sendgrid";
 import {subscribeEmail,WelcomeEmail} from "../../library/sendgrid-template";
 
-export const dynamic = 'force-dynamic' // defaults to auto
 export async function GET() {
     console.log("Test Get");
     sendEmail({email:"robeth@iziroam.com","subject":"Test ABC","message":"message"});
