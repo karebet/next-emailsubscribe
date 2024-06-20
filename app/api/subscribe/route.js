@@ -5,7 +5,7 @@ import {subscribeEmail,WelcomeEmail} from "../../library/sendgrid-template";
 
 export async function GET() {
     console.log("Test Get");
-    sendEmail({email:"robeth@iziroam.com",subject:"Test ABC",message:"message"});
+    //sendEmail({email:"robeth@iziroam.com",subject:"Test ABC",message:"message"});
     return NextResponse.json({ message:'Terimakasih'});
 }
 

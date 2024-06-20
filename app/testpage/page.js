@@ -6,7 +6,7 @@ export default function page() {
             <Link href={"/"}>Home</Link>
             <br />
             <Link href={"/api/subscribe"}>Api/Subscribe</Link>
-            <h1>Hello test page update v6</h1>
+            <h1>Hello test page update v7</h1>
         </div>
     );
 }
