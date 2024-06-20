@@ -12,7 +12,6 @@ export async function GET() {
 
 
 export async function POST(request) {
-    require('dotenv').config();
     const data  = await request.formData();
     var email = data.get('email');
     console.log("POST");
