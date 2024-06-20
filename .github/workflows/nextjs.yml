@@ -82,7 +82,9 @@ jobs:
           echo "SENDGRID_SENDER_NAME=${{ secrets.SENDGRID_SENDER_NAME }}" >> $GITHUB_ENV
       - name: Check variables environment
         run: |
+          echo "SENDGRID_SENDER_EMAIL=$SENDGRID_SENDER_EMAIL"
           echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME"
+          
       - name: Build with Next.js
         run: npm run build ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
