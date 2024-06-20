@@ -17,7 +17,23 @@ jobs:
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && echo 'abs' > abc.txt && exit"
+    - name: at server
+      run: |
+      ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
+      cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull 
+
+      echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+      echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
+      echo "SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}" >> .env
+      echo "SENDGRID_SENDER_EMAIL=${{ secrets.SENDGRID_SENDER_EMAIL }}" >> .env
+      echo "SENDGRID_SENDER_NAME=${{ vars.SENDGRID_SENDER_NAME }}" >> .env
+
+      echo "SENDGRID_SENDER_EMAIL=$SENDGRID_SENDER_EMAIL"
+      echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME"
+
+      npm i -g next
+      npm next build
+      pm2 restart next-email
+      exit
     - name: cleanup
       run: rm -rf ~/.ssh
