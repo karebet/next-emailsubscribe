@@ -32,7 +32,7 @@ jobs:
         echo "SENDGRID_SENDER_NAME=$SENDGRID_SENDER_NAME"
 
         npm i -g next
-        npm next build
+        npm run build
         pm2 restart next-email
         exit
     - name: cleanup
